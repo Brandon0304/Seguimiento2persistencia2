@@ -65,8 +65,12 @@ public class Main {
         empleado.setDepartamento(JOptionPane.showInputDialog("Ingrese departamento:"));
         empleado.setSalario(Double.parseDouble(JOptionPane.showInputDialog("Ingrese salario:")));
 
-        empleados.add(empleado);
-        JOptionPane.showMessageDialog(null, "Empleado registrado exitosamente.");
+        if (empleado.getEdad()>=18){
+            empleados.add(empleado);
+            JOptionPane.showMessageDialog(null, "Empleado registrado exitosamente.");
+        }else {
+            JOptionPane.showMessageDialog(null, "Edad no válida (debe tener 18 o más)");
+        }
     }
 
     private static void actualizarEmpleado() {
@@ -108,7 +112,7 @@ public class Main {
                 return;
             }
         }
-        JOptionPane.showMessageDialog(null, "El empleado no fue encontrado.");
+        JOptionPane.showMessageDialog(null, "No se encontró el empleado.");
     }
 
     private static void asignarTarea() {
@@ -119,9 +123,10 @@ public class Main {
         tarea.setFechaFin(JOptionPane.showInputDialog("Ingrese la fecha de fin:"));
         tarea.setEstado("Pendiente");
 
-        String nombreEmpleado = JOptionPane.showInputDialog("Ingrese nombre del empleado a asignar la tarea:");
+        String nombreEmpleado = JOptionPane.showInputDialog(null, "Ingrese nombre del empleado para asignar la tarea:");
+        String apellidoEmpleado = JOptionPane.showInputDialog(null, "Ingrese el apellido del empleado para asignar la tarea");
         for (Empleado emp : empleados) {
-            if (emp.getNombre().equalsIgnoreCase(nombreEmpleado)) {
+            if (emp.getNombre().equalsIgnoreCase(nombreEmpleado) && emp.getApellido().equalsIgnoreCase(apellidoEmpleado)) {
                 tarea.setEmpleado(emp);
                 tareas.add(tarea);
                 JOptionPane.showMessageDialog(null, "Tarea asignada exitosamente.");
@@ -137,6 +142,7 @@ public class Main {
             sb.append("Nombre:"+ ""+emp.getNombre()).append(" ").append(emp.getApellido()).append("\n");
             sb.append("Cargo: "+ ""+emp.getCargo()).append(" -- ").append("Departamento: "+ ""+emp.getDepartamento()).append("\n");
             sb.append("Edad: "+emp.getEdad()).append(" -- ").append("Salario: "+emp.getSalario()).append("\n");
+            sb.append("--------------------------------------------\n");
         }
         JOptionPane.showMessageDialog(null, sb.toString());
     }
@@ -147,6 +153,7 @@ public class Main {
         for (Tarea tarea : tareas) {
             if (tarea.getEmpleado().getNombre().equalsIgnoreCase(nombreEmpleado)) {
                 sb.append(tarea.getTitulo()).append(": ").append(tarea.getEstado()).append("\n");
+                sb.append(tarea.getDescripcion()).append(": ");
             }
         }
         JOptionPane.showMessageDialog(null, sb.toString());
@@ -158,10 +165,10 @@ public class Main {
             if (tarea.getTitulo().equalsIgnoreCase(tituloTarea)) {
                 String nuevoEstado = JOptionPane.showInputDialog("Ingrese un nuevo estado (Pendiente/Completada):");
                 tarea.setEstado(nuevoEstado);
-                JOptionPane.showMessageDialog(null, "La tarea fue actualizada.");
+                JOptionPane.showMessageDialog(null, "La tarea se actualizó exitosamente.");
                 return;
             }
         }
-        JOptionPane.showMessageDialog(null, "Tarea no encontrada.");
+        JOptionPane.showMessageDialog(null, "No se pudo encontrar la tarea.");
     }
 }
